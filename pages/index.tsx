@@ -1,6 +1,5 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import HeadFile from '../components/head-file'
-import { useState } from 'react'
 
 const Index: FC = () => {
   const [rawData, setRawData] = useState<string[] | null>(null)
@@ -21,7 +20,6 @@ const Index: FC = () => {
   }
 
   async function processCSVData(_data: any) {
-    setProcessStart(new Date().getTime())
     const CSVLines = _data.split(/\r\n|\n/)
     setCSVHeader(CSVLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/).join(','))
 
@@ -98,7 +96,6 @@ const Index: FC = () => {
     // console.log(formatted_matrix)
 
     setFormattedData(formatted_matrix)
-    setProcessEnd(new Date().getTime())
   }
 
   return (
@@ -133,10 +130,7 @@ const Index: FC = () => {
           </div>
           <div className="w-full bg-white rounded-lg p-4 overflow-y-auto relative h-full">
             <p className="bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500">
-              Formatted Data{' '}
-              <span className="absolute right-0">
-                {((processEnd - processStart) / 1000).toFixed(16)}s
-              </span>
+              Formatted Data
             </p>
             {<span>{CSVHeader}</span>}
             {formattedData?.map((_data: string[], i: any) => {
